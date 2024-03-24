@@ -1,5 +1,7 @@
 package character
 
+import "log"
+
 type Character struct {
     Name string
     Health int
@@ -19,6 +21,18 @@ func NewCharacter(name string) Character {
 func (c *Character) ReceivesDamage(from Character, damage int) {
     if c.Name == from.Name {
         return
+    }
+
+    diffLevels := c.Level - from.Level
+    log.Println(diffLevels)
+    if diffLevels >= 5 {
+            reduce := int(float32(damage) * 0.5)
+            damage = damage - reduce
+    }
+
+    if diffLevels <= -5 {
+            augment := int(float32(damage) * 0.5)
+            damage = damage + augment
     }
 
     c.Health = c.Health - damage
